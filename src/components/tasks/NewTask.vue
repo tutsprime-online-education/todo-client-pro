@@ -11,29 +11,11 @@
                     <DropdownToggle tag="button" type="button" class="btn btn-sm btn-light" :class="toggleClass" @click="toggle"></DropdownToggle>
                 </template>
                 <template #menu="{ toggle }">
-                    <DropdownItem @click.prevent="toggle()">
-                        <span class="text-danger me-2">
+                    <DropdownItem @click.prevent="toggle(), setPriority(priority.id)" v-for="priority in listPriorities" :key="priority.name">
+                        <span class="me-2" :class="priority.color">
                             <IconFlag />
                         </span>
-                        High Priority
-                    </DropdownItem>
-                    <DropdownItem @click.prevent="toggle()">
-                        <span class="text-warning me-2">
-                            <IconFlag />
-                        </span>
-                        Medium Priority
-                    </DropdownItem>
-                    <DropdownItem @click.prevent="toggle()">
-                        <span class="text-primary me-2">
-                            <IconFlag />
-                        </span>
-                        Low Priority
-                    </DropdownItem>
-                    <DropdownItem @click.prevent="toggle()">
-                        <span class="text-secondary me-2">
-                            <IconFlag />
-                        </span>
-                        No Priority
+                        {{ priority.description }}
                     </DropdownItem>
                 </template>
             </Dropdown>
@@ -42,19 +24,25 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
+import { storeToRefs } from "pinia";
 import { useTaskStore } from "../../stores/task";
+import { usePriorityStore } from "../../stores/priority";
 import IconFlag from '../icons/IconFlag.vue';
 import Dropdown from '../dropdown/Dropdown.vue';
 import DropdownToggle from '../dropdown/DropdownToggle.vue';
 import DropdownItem from '../dropdown/DropdownItem.vue';
 
-const store = useTaskStore()
-const { handleAddedTask } = store
+const taskStore = useTaskStore()
+const { handleAddedTask } = taskStore
+const priorityStore = usePriorityStore()
+const { listPriorities } = storeToRefs(priorityStore)
+const { fetchAllPriorities } = priorityStore
 
 const newTask = reactive({
     name: '',
-    is_completed: false
+    is_completed: false,
+    priority_id: null
 })
 
 const addNewTask = async(event) => {
@@ -64,6 +52,12 @@ const addNewTask = async(event) => {
         await handleAddedTask(newTask)
     }
 }
+
+const setPriority = (id) => newTask.priority_id = id
+
+onMounted(async () => {
+    await fetchAllPriorities()
+})
 </script>
 
 <style scopded>
