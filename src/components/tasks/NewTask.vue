@@ -4,6 +4,7 @@
             class="form-control form-control-lg padding-right-lg"
             placeholder="+ Add new task. Press enter to save." 
             @keydown.enter="addNewTask"
+            ref="inputRef"
         />
         <div class="sort-priority">
             <Dropdown>
@@ -24,7 +25,7 @@
 </template>
 
 <script setup>
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, ref } from 'vue';
 import { storeToRefs } from "pinia";
 import { useTaskStore } from "../../stores/task";
 import { usePriorityStore } from "../../stores/priority";
@@ -38,6 +39,7 @@ const { handleAddedTask } = taskStore
 const priorityStore = usePriorityStore()
 const { listPriorities } = storeToRefs(priorityStore)
 const { fetchAllPriorities } = priorityStore
+const inputRef = ref()
 
 const newTask = reactive({
     name: '',
@@ -53,7 +55,10 @@ const addNewTask = async(event) => {
     }
 }
 
-const setPriority = (id) => newTask.priority_id = id
+const setPriority = (id) => {
+    newTask.priority_id = id
+    inputRef.value.focus();
+}
 
 onMounted(async () => {
     await fetchAllPriorities()
