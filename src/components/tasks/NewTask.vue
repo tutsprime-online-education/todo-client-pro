@@ -77,6 +77,6 @@ const addNewTask = async(event) => {
     transform: translateY(-50%);
     right: 10px;
     padding-left: 10px;
-    z-index: 1000;
+    z-index: 999;
 }
 </style>
