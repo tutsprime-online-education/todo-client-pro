@@ -6,44 +6,37 @@
             @keydown.enter="addNewTask"
         />
         <div class="sort-priority">
-            <div class="dropdown">
-                <button class="btn btn-sm btn-light dropdown-toggle show" type="button" data-bs-toggle="dropdown" aria-expanded="false">                
-                </button>
-                <ul class="dropdown-menu show" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 40px);">
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <span class="text-danger me-2">
-                                <IconFlag />
-                            </span>
-                            High Priority
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <span class="text-warning me-2">
-                                <IconFlag />
-                            </span>
-                            Medium Priority
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <span class="text-primary me-2">
-                                <IconFlag />
-                            </span>
-                            Low Priority
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <span class="text-secondary me-2">
-                                <IconFlag />
-                            </span>
-                            No Priority
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <Dropdown>
+                <template #toggle="{ toggleClass, toggle }">
+                    <DropdownToggle tag="button" type="button" class="btn btn-sm btn-light" :class="toggleClass" @click="toggle"></DropdownToggle>
+                </template>
+                <template #menu="{ toggle }">
+                    <DropdownItem @click.prevent="toggle()">
+                        <span class="text-danger me-2">
+                            <IconFlag />
+                        </span>
+                        High Priority
+                    </DropdownItem>
+                    <DropdownItem @click.prevent="toggle()">
+                        <span class="text-warning me-2">
+                            <IconFlag />
+                        </span>
+                        Medium Priority
+                    </DropdownItem>
+                    <DropdownItem @click.prevent="toggle()">
+                        <span class="text-primary me-2">
+                            <IconFlag />
+                        </span>
+                        Low Priority
+                    </DropdownItem>
+                    <DropdownItem @click.prevent="toggle()">
+                        <span class="text-secondary me-2">
+                            <IconFlag />
+                        </span>
+                        No Priority
+                    </DropdownItem>
+                </template>
+            </Dropdown>
         </div>
     </div>
 </template>
@@ -52,6 +45,9 @@
 import { reactive } from 'vue';
 import { useTaskStore } from "../../stores/task";
 import IconFlag from '../icons/IconFlag.vue';
+import Dropdown from '../dropdown/Dropdown.vue';
+import DropdownToggle from '../dropdown/DropdownToggle.vue';
+import DropdownItem from '../dropdown/DropdownItem.vue';
 
 const store = useTaskStore()
 const { handleAddedTask } = store

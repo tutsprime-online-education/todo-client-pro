@@ -1,6 +1,6 @@
 <template>
     <li>
-        <a class="dropdown-item" v-bind="$attrs">
+        <a class="dropdown-item" href="#" v-bind="$attrs">
             <slot />
         </a>
     </li>

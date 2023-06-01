@@ -29,7 +29,7 @@
                         </li>
                     </template>
                     <template v-else>
-                        <Dropdown class="nav-item">
+                        <Dropdown class="nav-item" tag="li">
                             <template #toggle="{ toggleClass, toggle }">
                                 <DropdownToggle class="nav-link" :class="toggleClass" @click.prevent="toggle" href="#" role="button" >
                                     {{ store.user.name }}
