@@ -29,14 +29,16 @@
                         </li>
                     </template>
                     <template v-else>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" :class="toggleClass" @click.prevent="toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ store.user.name }}
-                            </a>
-                            <ul class="dropdown-menu" :class="toggleClass">
-                                <li><a href="#" class="dropdown-item" @click.prevent="logout">Logout</a></li>
-                            </ul>
-                        </li>
+                        <Dropdown class="nav-item">
+                            <template #toggler="{ toggleClass, toggle }">
+                                <a class="nav-link dropdown-toggle" :class="toggleClass" @click.prevent="toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ store.user.name }}
+                                </a>
+                            </template>
+                            <template #menu="{ toggle }">
+                                <li><a href="#" class="dropdown-item" @click.prevent="toggle(), logout()">Logout</a></li>
+                            </template>
+                        </Dropdown>
                     </template>
                 </ul>
             </div>
@@ -45,23 +47,17 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
+import Dropdown from "./dropdown/Dropdown.vue";
 
 const router = useRouter()
 const store = useAuthStore()
-const isOpen = ref(false)
 
 const logout = async () => {
     await store.handleLogout()
-    isOpen.value = false
     router.push({ name: 'login' })
 }
-
-const toggle = () => isOpen.value = !isOpen.value
-
-const toggleClass = computed(() => isOpen.value === true ? 'show' : '')
 </script>
 <style scoped>
 .nav-link.router-link-active {
