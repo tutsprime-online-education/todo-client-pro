@@ -18,8 +18,8 @@ export const useTaskStore = defineStore("taskStore", () => {
     tasks.value.filter((task) => task.is_completed)
   );
 
-  const fetchAllTasks = async () => {
-    const { data } = await allTasks();
+  const fetchAllTasks = async (params) => {
+    const { data } = await allTasks(params);
     tasks.value = data.data;
   };
 

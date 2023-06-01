@@ -32,7 +32,8 @@
     </main>
 </template>
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useTaskStore } from "../stores/task";
 import Tasks from "../components/tasks/Tasks.vue";
@@ -46,6 +47,10 @@ const { fetchAllTasks } = store
 onMounted(async () => {
     await fetchAllTasks()
 })
+
+const route = useRoute();
+
+watch(() => route.query, async (query) => await fetchAllTasks(query))
 
 const showToggleCompletedBtn = computed(
     () => uncompletedTasks.value.length > 0 && completedTasks.value.length > 0
