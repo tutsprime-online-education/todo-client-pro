@@ -30,13 +30,13 @@
                     </template>
                     <template v-else>
                         <Dropdown class="nav-item">
-                            <template #toggler="{ toggleClass, toggle }">
-                                <a class="nav-link dropdown-toggle" :class="toggleClass" @click.prevent="toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <template #toggle="{ toggleClass, toggle }">
+                                <DropdownToggle class="nav-link" :class="toggleClass" @click.prevent="toggle" href="#" role="button" >
                                     {{ store.user.name }}
-                                </a>
+                                </DropdownToggle>
                             </template>
                             <template #menu="{ toggle }">
-                                <li><a href="#" class="dropdown-item" @click.prevent="toggle(), logout()">Logout</a></li>
+                                <DropdownItem href="#" @click.prevent="toggle(), logout()">Logout</DropdownItem>
                             </template>
                         </Dropdown>
                     </template>
@@ -50,6 +50,8 @@
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import Dropdown from "./dropdown/Dropdown.vue";
+import DropdownToggle from "./dropdown/DropdownToggle.vue";
+import DropdownItem from "./dropdown/DropdownItem.vue";
 
 const router = useRouter()
 const store = useAuthStore()

@@ -1,6 +1,6 @@
 <template>
     <component :is="tag" class="dropdown">
-        <slot name="toggler" :toggleClass="toggleClass" :toggle="toggle" />
+        <slot name="toggle" :toggleClass="toggleClass" :toggle="toggle" />
         <ul class="dropdown-menu" :class="toggleClass" :style="menuStyle">
             <slot name="menu" :toggle="toggle" />
         </ul>
