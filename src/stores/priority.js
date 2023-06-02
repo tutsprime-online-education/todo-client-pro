@@ -27,6 +27,14 @@ export const usePriorityStore = defineStore("priorityStore", () => {
       .concat(noPriority);
   });
 
+  const getPriorityByName = (name) =>
+    priorities.value.find((priority) => priority.name === name);
+
+  const getPriority = (text) => {
+    const matches = text.match(/(?=(\!(high|medium|low)))/i);
+    return matches === null ? null : getPriorityByName(matches[2]);
+  };
+
   const fetchAllPriorities = async () => {
     const { data } = await allPriorities();
     priorities.value = data.data;
@@ -34,6 +42,7 @@ export const usePriorityStore = defineStore("priorityStore", () => {
 
   return {
     listPriorities,
+    getPriority,
     fetchAllPriorities,
   };
 });
