@@ -28,10 +28,10 @@ export const usePriorityStore = defineStore("priorityStore", () => {
   });
 
   const getPriorityByName = (name) =>
-    priorities.value.find((priority) => priority.name === name);
+    listPriorities.value.find((priority) => priority.name === name);
 
   const getPriority = (text) => {
-    const matches = text.match(/(?=(\!(high|medium|low)))/i);
+    const matches = text.match(/(?=(\!(high|medium|low|none)))/i);
     return matches === null ? null : getPriorityByName(matches[2]);
   };
 

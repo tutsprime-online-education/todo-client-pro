@@ -21,7 +21,7 @@
                         v-model="editingTask"
                     />
                 </div>
-                <span v-else>{{ task.name }}</span>
+                <span v-else>{{ taskName }}</span>
             </div>
             <!-- <div class="task-date">24 Feb 12:00</div> -->
         </div>
@@ -34,7 +34,10 @@
 
 <script setup>
 import { computed, ref } from "vue";
+import { usePriorityStore } from "../../stores/priority";
 import TaskActions from "./TaskActions.vue";
+const priorityStore = usePriorityStore()
+const { getPriority } = priorityStore
 
 const props = defineProps({
     task: Object
@@ -46,13 +49,24 @@ const isEdit = ref(false)
 const editingTask = ref(props.task.name)
 const completedClass = computed(() => props.task.is_completed ? "completed" : "")
 const priorityClass = computed(() => props.task.priority === null ? "priority-none" : `priority-${props.task.priority.name}`)
+const taskName = computed(() => props.task.name.replace(/\s*\!(high|medium|low|none)/i, ''))
 
 const vFocus = {
     mounted: (el) => el.focus()
 }
 
 const updateTask = event => {
-    const updatedTask = { ...props.task, name: event.target.value }
+    const updatedTask = { 
+        ...props.task, 
+        name: event.target.value,
+        priority_id: props.task.priority === null ? null : props.task.priority.id
+    }
+
+    const priority = getPriority(event.target.value)
+    if (priority) {
+        updatedTask.priority_id = priority.id;
+    }
+
     isEdit.value = false
     emit('updated', updatedTask)
 }
