@@ -18,8 +18,8 @@ export const useTaskStore = defineStore("taskStore", () => {
     tasks.value.filter((task) => task.is_completed)
   );
 
-  const fetchAllTasks = async () => {
-    const { data } = await allTasks();
+  const fetchAllTasks = async (params) => {
+    const { data } = await allTasks(params);
     tasks.value = data.data;
   };
 
@@ -31,9 +31,10 @@ export const useTaskStore = defineStore("taskStore", () => {
   const handleUpdatedTask = async (task) => {
     const { data: updatedTask } = await updateTask(task.id, {
       name: task.name,
+      priority_id: task.priority_id,
     });
-    const currentTask = tasks.value.find((item) => item.id === task.id);
-    currentTask.name = updatedTask.data.name;
+    const index = tasks.value.findIndex((item) => item.id === task.id);
+    tasks.value.splice(index, 1, updatedTask.data);
   };
 
   const handleCompletedTask = async (task) => {
