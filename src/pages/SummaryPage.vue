@@ -4,11 +4,12 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <!-- Page header -->
-                    <div class="mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
                         <h3 class="text-body mb-0">
                             Summary
                             <small class="text-muted">(Tasks this week)</small>
                         </h3>
+                        <SummaryOrder />
                     </div>
                     <div v-for="(tasks, group) in summaries" :key="group">
                         <Summaries :tasks="tasks" :description="group" class="mb-3" />
@@ -24,6 +25,7 @@ import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useSummaryStore } from "../stores/summary";
 import Summaries from "../components/summaries/Summaries.vue";
+import SummaryOrder from "../components/summaries/SummaryOrder.vue";
 
 const store = useSummaryStore()
 const { summaries } = storeToRefs(store)
