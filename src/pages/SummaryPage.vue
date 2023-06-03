@@ -11,6 +11,9 @@
                         </h3>
                         <SummaryOrder @selected-filter="changeSubtitle" />
                     </div>
+                    <div v-if="summaries.length === 0">
+                        <p class="text-secondary">No tasks can be found with the current filters.</p>
+                    </div>
                     <div v-for="(tasks, group) in summaries" :key="group">
                         <Summaries :tasks="tasks" :description="group" class="mb-3" />
                     </div>
