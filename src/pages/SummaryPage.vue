@@ -10,14 +10,8 @@
                             <small class="text-muted">(Tasks this week)</small>
                         </h3>
                     </div>
-                    <div v-for="(summary, group) in summaries" :key="group">
-                        <p class="lead text-uppercase">{{ group }}</p>
-                        <ul>
-                            <li v-for="task in summary" :key="task.id">
-                                [{{ task.created_at }}]
-                                {{ task.name }}
-                            </li>
-                        </ul>
+                    <div v-for="(tasks, group) in summaries" :key="group">
+                        <Summaries :tasks="tasks" :description="group" class="mb-3" />
                     </div>
                 </div>
             </div>
@@ -29,6 +23,7 @@
 import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useSummaryStore } from "../stores/summary";
+import Summaries from "../components/summaries/Summaries.vue";
 
 const store = useSummaryStore()
 const { summaries } = storeToRefs(store)
