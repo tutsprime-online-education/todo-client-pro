@@ -1,12 +1,17 @@
 <template>
     <li>
         [{{ task.created_at }}]
-        {{ task.name }}
+        {{ taskName }}
     </li>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from "vue";
+import { stripPriorityFrom } from "../../composables/usePriority";
+
+const props = defineProps({
     task: Object
 })
+
+const taskName = computed(() => stripPriorityFrom(props.task.name))
 </script>

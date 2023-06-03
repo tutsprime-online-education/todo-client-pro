@@ -38,6 +38,7 @@ import { usePriorityStore } from "../../stores/priority";
 import TaskActions from "./TaskActions.vue";
 const priorityStore = usePriorityStore()
 const { getPriority } = priorityStore
+import { stripPriorityFrom } from "../../composables/usePriority";
 
 const props = defineProps({
     task: Object
@@ -49,7 +50,7 @@ const isEdit = ref(false)
 const editingTask = ref(props.task.name)
 const completedClass = computed(() => props.task.is_completed ? "completed" : "")
 const priorityClass = computed(() => props.task.priority === null ? "priority-none" : `priority-${props.task.priority.name}`)
-const taskName = computed(() => props.task.name.replace(/\s*\!(high|medium|low|none)/i, ''))
+const taskName = computed(() => stripPriorityFrom(props.task.name))
 
 const vFocus = {
     mounted: (el) => el.focus()
