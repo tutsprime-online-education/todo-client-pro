@@ -21,7 +21,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useSummaryStore } from "../stores/summary";
 import Summaries from "../components/summaries/Summaries.vue";
@@ -35,6 +36,10 @@ const { fetchTasksSummary } = store
 onMounted(async () => {
     await fetchTasksSummary();
 })
+
+const route = useRoute();
+
+watch(() => route.query, async (query) => await fetchTasksSummary(query))
 
 const changeSubtitle = e => subTitle.value = e
 </script>
