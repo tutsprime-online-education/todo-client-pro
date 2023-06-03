@@ -1,6 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import { allPriorities } from "../http/priority-api";
+import { extractPriorityFrom } from "../composables/usePriority";
 
 export const usePriorityStore = defineStore("priorityStore", () => {
   const priorities = ref([]);
@@ -31,7 +32,7 @@ export const usePriorityStore = defineStore("priorityStore", () => {
     listPriorities.value.find((priority) => priority.name === name);
 
   const getPriority = (text) => {
-    const matches = text.match(/(?=(\!(high|medium|low|none)))/i);
+    const matches = extractPriorityFrom(text);
     return matches === null ? null : getPriorityByName(matches[2]);
   };
 
