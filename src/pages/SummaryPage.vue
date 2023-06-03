@@ -7,9 +7,9 @@
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <h3 class="text-body mb-0">
                             Summary
-                            <small class="text-muted">(Tasks this week)</small>
+                            <small class="text-muted fs-5">{{ subTitle }}</small>
                         </h3>
-                        <SummaryOrder />
+                        <SummaryOrder @selected-filter="changeSubtitle" />
                     </div>
                     <div v-for="(tasks, group) in summaries" :key="group">
                         <Summaries :tasks="tasks" :description="group" class="mb-3" />
@@ -21,12 +21,13 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useSummaryStore } from "../stores/summary";
 import Summaries from "../components/summaries/Summaries.vue";
 import SummaryOrder from "../components/summaries/SummaryOrder.vue";
 
+const subTitle = ref('')
 const store = useSummaryStore()
 const { summaries } = storeToRefs(store)
 const { fetchTasksSummary } = store
@@ -34,4 +35,6 @@ const { fetchTasksSummary } = store
 onMounted(async () => {
     await fetchTasksSummary();
 })
+
+const changeSubtitle = e => subTitle.value = e
 </script>
