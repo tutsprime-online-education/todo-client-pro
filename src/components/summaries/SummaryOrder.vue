@@ -7,17 +7,9 @@
         </template>
         
         <template #menu="{ toggle }">
-            <DropdownItem v-for="(value, key) in filterItems" @click.prevent="toggle(), sortSummaries(key)">{{ value }}</DropdownItem>
-            <!-- <DropdownItem @click.prevent="toggle()">Yesterday</DropdownItem>
-            <DropdownItem @click.prevent="toggle()">
-                <span class="text-primary d-flex justify-content-between align-items-center">
-                    This week
-                    <IconCheck />
-                </span>
+            <DropdownItem v-for="(value, key) in filterItems" @click.prevent="toggle(), sortSummaries(key)">
+                <FilterItem :text="value" :selected="key === selectedFilterItem" />
             </DropdownItem>
-            <DropdownItem @click.prevent="toggle()">Last week</DropdownItem>
-            <DropdownItem @click.prevent="toggle()">This month</DropdownItem>
-            <DropdownItem @click.prevent="toggle()">Last month</DropdownItem> -->
         </template>
     </Dropdown>
 </template>
@@ -29,7 +21,7 @@ import { subDays, format } from "date-fns";
 import Dropdown from "../dropdown/Dropdown.vue";
 import DropdownItem from "../dropdown/DropdownItem.vue";
 import DropdownToggle from "../dropdown/DropdownToggle.vue";
-import IconCheck from "../icons/IconCheck.vue";
+import FilterItem from "./FilterItem.vue";
 
 const emit = defineEmits(['selected-filter'])
 
